@@ -1,14 +1,9 @@
-﻿using AbstractFactory.Rendering;
+﻿using System.Drawing;
 
 namespace AbstractFactory.Components.Windows;
 
 public class WindowsTextBox : TextBox
 {
-    public override void RenderComponent(RenderParams renderParams)
-    {
-        Console.WriteLine(
-            $"TextBox component for Windows renders with params: " +
-            $"{nameof(renderParams.Height)} : {renderParams.Height}, " +
-            $"{nameof(renderParams.Width)} : {renderParams.Width}");
-    }
+    public WindowsTextBox(Point size) 
+        => Size = size;
 }

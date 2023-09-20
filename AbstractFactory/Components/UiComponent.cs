@@ -1,8 +1,8 @@
-﻿using AbstractFactory.Rendering;
+﻿using System.Drawing;
 
 namespace AbstractFactory.Components;
 
 public abstract class UiComponent
-{
-    public abstract void RenderComponent(RenderParams renderParams);
+{ 
+    public Point Size { get; protected init; }
 }

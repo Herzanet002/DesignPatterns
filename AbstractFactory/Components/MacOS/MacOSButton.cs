@@ -1,14 +1,9 @@
-﻿using AbstractFactory.Rendering;
+﻿using System.Drawing;
 
 namespace AbstractFactory.Components.MacOS;
 
 public class MacOSButton : Button
 {
-    public override void RenderComponent(RenderParams renderParams)
-    {
-        Console.WriteLine(
-            $"Button component for MacOS renders with params: " +
-            $"{nameof(renderParams.Height)} : {renderParams.Height}, " +
-            $"{nameof(renderParams.Width)} : {renderParams.Width}");
-    }
+    public MacOSButton(Point size)
+        => Size = size;
 }

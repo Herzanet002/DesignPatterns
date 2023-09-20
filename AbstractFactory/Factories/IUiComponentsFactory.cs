@@ -1,12 +1,13 @@
-﻿using AbstractFactory.Components;
+﻿using System.Drawing;
+using AbstractFactory.Components;
 
 namespace AbstractFactory.Factories;
 
 public interface IUiComponentsFactory
 {
-    Button CreateButton();
+    Button CreateButton(Point size);
 
-    TextBox CreateTextBox();
+    TextBox CreateTextBox(Point size);
 
-    Label CreateLabel();
+    Label CreateLabel(Point size);
 }
