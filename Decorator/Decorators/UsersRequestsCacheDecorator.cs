@@ -3,17 +3,18 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Decorator.Decorators;
 
-public class UsersRequestsCacheDecorator : Decorator
+public class UsersRequestsCacheDecorator : AbstractDecorator
 {
     private readonly IMemoryCache _memoryCache;
     
-    public UsersRequestsCacheDecorator(IUserRequestHandler userRequestHandler, IMemoryCache memoryCache) : base(userRequestHandler)
+    public UsersRequestsCacheDecorator(IUserRequestHandler userRequestHandler, IMemoryCache memoryCache) 
+        : base(userRequestHandler)
         => _memoryCache = memoryCache;
 
     public override Task HandleRequest(UserRequest request)
     {
-        var cacheKey = nameof(UsersRequestsCacheDecorator) + request.ContextId;
-        if (_memoryCache.TryGetValue(cacheKey, out UserRequest userRequest))
+        var cacheKey = nameof(HandleRequest) + request.ContextId;
+        if (_memoryCache.TryGetValue(cacheKey, out UserRequest? userRequest))
         {
             if (userRequest != null)
             {

@@ -2,15 +2,16 @@
 
 namespace Decorator.Decorators;
 
-public class UserRequestsValidatorDecorator : Decorator
+public class UserRequestsValidatorDecorator : AbstractDecorator
 {
-    public UserRequestsValidatorDecorator(IUserRequestHandler userRequestHandler) : base(userRequestHandler)
+    public UserRequestsValidatorDecorator(IUserRequestHandler userRequestHandler) 
+        : base(userRequestHandler)
     {
     }
 
     public override Task HandleRequest(UserRequest request)
     {
-        if (request.RequestDate <= DateTime.Now.AddMinutes(-1))
+        if (request.RequestedAt <= DateTime.Now.AddMinutes(-1))
         {
             throw new Exception($"User request {request.ContextId} is expired");
         }

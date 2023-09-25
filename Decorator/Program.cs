@@ -12,44 +12,33 @@ var validatorDecorator = new UserRequestsValidatorDecorator(userHandler);
 var cacheDecorator = new UsersRequestsCacheDecorator(validatorDecorator,
     ActivatorUtilities.GetServiceOrCreateInstance<IMemoryCache>(host.Services));
 
-var validUserRequest = new UserRequest(DateTime.Now, true, 1);
-var validCachedUserRequest = new UserRequest(DateTime.Now, true, 1);
-var expiredUserRequest = new UserRequest(DateTime.Now.AddMinutes(-5), true, 2);
-var unauthenticatedUserRequest = new UserRequest(DateTime.Now, false, 3);
+var contextIdForValidRequest = Guid.NewGuid();
 
-try
-{
-    await cacheDecorator.HandleRequest(validUserRequest);
-    await cacheDecorator.HandleRequest(validCachedUserRequest);
-}
-catch (Exception e)
-{
-}
+var validUserRequest = new UserRequest(DateTime.Now, true, contextIdForValidRequest);
+var validCachedUserRequest = new UserRequest(DateTime.Now, true, contextIdForValidRequest);
+var expiredUserRequest = new UserRequest(DateTime.Now.AddMinutes(-5), true, Guid.NewGuid());
+var unauthenticatedUserRequest = new UserRequest(DateTime.Now, false, Guid.NewGuid());
 
-try
-{
-    await cacheDecorator.HandleRequest(expiredUserRequest);
-}
-catch (Exception e)
-{
-    Console.WriteLine(e.Message);
-}
-
-try
-{
-    await cacheDecorator.HandleRequest(unauthenticatedUserRequest);
-}
-catch (Exception e)
-{
-    Console.WriteLine(e.Message);
-}
+await TryExecuteRequest(validUserRequest);
+await TryExecuteRequest(validCachedUserRequest);
+await TryExecuteRequest(expiredUserRequest);
+await TryExecuteRequest(unauthenticatedUserRequest);
 
 return;
 
+async Task TryExecuteRequest(UserRequest request)
+{
+    try
+    {
+        await cacheDecorator.HandleRequest(request);
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.Message);
+    }
+}
+
 static IHost CreateHost() =>
     Host.CreateDefaultBuilder()
-        .ConfigureServices((context, services) =>
-        {
-            services.AddMemoryCache();
-        })
+        .ConfigureServices((context, services) => { services.AddMemoryCache(); })
         .Build();

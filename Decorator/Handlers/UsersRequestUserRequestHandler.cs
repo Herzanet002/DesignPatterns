@@ -6,7 +6,7 @@ public class UsersRequestUserRequestHandler : IUserRequestHandler
     {
         var cachedResult = request.IsCached ? "cached" : "not cached";
         Console.WriteLine(
-            $"[{request.RequestDate}]: Got {cachedResult} request {request.ContextId}");
+            $"[{request.RequestedAt}]: Got {cachedResult} request {request.ContextId}");
         await Task.CompletedTask;
     }
 }

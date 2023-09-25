@@ -2,23 +2,18 @@
 
 public class UserRequest
 {
-    public int ContextId { get; set; }
+    public Guid ContextId { get; set; }
     
-    public DateTime RequestDate { get; set; }
+    public DateTime RequestedAt { get; set; }
 
     public bool IsAuthenticated { get; set; }
     
     public bool IsCached { get; set; }
 
-    public UserRequest(DateTime requestDate, bool isAuthenticated, int contextId)
+    public UserRequest(DateTime requestedAt, bool isAuthenticated, Guid contextId)
     {
-        RequestDate = requestDate;
+        RequestedAt = requestedAt;
         IsAuthenticated = isAuthenticated;
-        ContextId = contextId;
-    }
-
-    public UserRequest(int contextId)
-    {
         ContextId = contextId;
     }
 }
