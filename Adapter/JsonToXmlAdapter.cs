@@ -1,6 +1,5 @@
 ﻿using System.Xml;
 using Adapter.Providers;
-using Newtonsoft.Json;
 
 namespace Adapter;
 
@@ -14,16 +13,15 @@ public class JsonToXmlAdapter : IXmlProvider
     public string GetXmlData(string data)
     {
         var jsonData = _jsonDataProvider.GetJsonData(data);
-        dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
-
+        
         var xmlDocument = new XmlDocument();
         XmlNode rootNode = xmlDocument.CreateElement("Object");
         xmlDocument.AppendChild(rootNode);
 
-        foreach (var property in jsonObject)
+        foreach (var property in jsonData.Properties())
         {
             XmlNode node = xmlDocument.CreateElement(property.Name);
-            node.InnerText = property.Value.ToString();
+            node.InnerText = property.Value.ToString()!;
             rootNode.AppendChild(node);
         }
 

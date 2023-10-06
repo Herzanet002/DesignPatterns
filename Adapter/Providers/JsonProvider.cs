@@ -1,9 +1,9 @@
-﻿namespace Adapter.Providers;
+﻿using Newtonsoft.Json.Linq;
+
+namespace Adapter.Providers;
 
 public class JsonProvider : IJsonProvider
 {
-    public string GetJsonData(string data)
-    {
-        return data;
-    }
+    public JObject GetJsonData(string data) 
+        => JObject.Parse(data);
 }

@@ -1,17 +1,22 @@
 ﻿using Adapter.Providers;
+using Newtonsoft.Json.Linq;
 
 namespace Adapter;
 
 public class RestClient
 {
     private readonly IJsonProvider _jsonProvider;
+    private readonly HttpClient _httpClient;
 
-    public RestClient(IJsonProvider jsonProvider)
-        => _jsonProvider = jsonProvider;
-
-    public string GetResponseData()
+    public RestClient(IJsonProvider jsonProvider, HttpClient httpClient)
     {
-        var jsonData = "{\"name\":\"John\",\"age\":30,\"city\":\"New York\"}";
-        return _jsonProvider.GetJsonData(jsonData);
+        _jsonProvider = jsonProvider;
+        _httpClient = httpClient;
+    }
+
+    public async Task<JObject> GetResponseDataAsync()
+    {
+        var jsonResponse = await _httpClient.GetStringAsync("https://jsonplaceholder.typicode.com/posts/1");
+        return _jsonProvider.GetJsonData(jsonResponse);
     }
 }
